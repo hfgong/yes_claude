@@ -23,8 +23,6 @@ for i in $(seq 1 $LOOPS); do
     if tmux capture-pane -p -t "$PANE_TARGET" | grep -q "$PROMPT_TEXT"; then
         echo "Prompt found. Sending 'Enter' to select 'Yes'."
         tmux send-keys -H -t "$PANE_TARGET" 0D
-        echo "Monitoring finished."
-        exit 0
     else
         echo "Prompt not found."
     fi
