@@ -11,17 +11,18 @@ WINDOW_TARGET=$1
 INTERVAL=$2
 LOOPS=$3
 PROMPT_TEXT="Do you want to proceed?"
+PANE_TARGET=":${WINDOW_TARGET}.0"
 
-echo "Starting monitoring of tmux window ${WINDOW_TARGET} for ${LOOPS} loops with an interval of ${INTERVAL} seconds."
+echo "Starting monitoring of tmux pane ${PANE_TARGET} for ${LOOPS} loops with an interval of ${INTERVAL} seconds."
 
 for i in $(seq 1 $LOOPS); do
     echo "Loop ${i}/${LOOPS}: Sleeping for ${INTERVAL} seconds..."
     sleep $INTERVAL
 
-    echo "Checking for prompt in window ${WINDOW_TARGET}..."
-    if tmux capture-pane -p -t "$WINDOW_TARGET" | grep -q "$PROMPT_TEXT"; then
+    echo "Checking for prompt in pane ${PANE_TARGET}..."
+    if tmux capture-pane -p -t "$PANE_TARGET" | grep -q "$PROMPT_TEXT"; then
         echo "Prompt found. Sending 'Enter' to select 'Yes'."
-        tmux send-keys -t "$WINDOW_TARGET" C-m
+        tmux send-keys -H -t "$PANE_TARGET" 0D
         echo "Monitoring finished."
         exit 0
     else
