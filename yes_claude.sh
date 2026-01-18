@@ -25,16 +25,18 @@ echo "Starting monitoring of tmux pane ${PANE_TARGET} for ${LOOPS} loops with an
 echo "Looking for prompts: ${PROMPTS[*]}"
 
 for i in $(seq 1 $LOOPS); do
-    echo "Loop ${i}/${LOOPS}: Sleeping for ${INTERVAL} seconds..."
-    sleep $INTERVAL
-
-    echo "Checking for prompts in pane ${PANE_TARGET}..."
+    echo "Loop ${i}/${LOOPS}: Checking for prompts in pane ${PANE_TARGET}..."
     if tmux capture-pane -p -t "$PANE_TARGET" | grep -qE "$PROMPT_REGEX"; then
         echo "Prompt found. Sending 'Enter' to select 'Yes'."
+        tmux send-keys -H -t "$PANE_TARGET" 0D
+    elif [ $((i % 100)) -eq 0 ]; then
+        echo "Periodic check (every 100 loops). Sending 'Enter' anyway."
         tmux send-keys -H -t "$PANE_TARGET" 0D
     else
         echo "Prompt not found."
     fi
+
+    sleep $INTERVAL
 done
 
 echo "Monitoring finished after ${LOOPS} loops. Prompt was not found."
