@@ -14,6 +14,11 @@ PROMPTS=(
     "Do you want to "
     "Would you like to "
     "❯ 1. Yes,"
+    "Allow once"
+    "Allow always"
+    "Accept changes?"
+    "Write to file"
+    "Do you want to run this command?"
 )
 PANE_TARGET=":${WINDOW_TARGET}.0"
 
