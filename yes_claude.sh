@@ -1,6 +1,12 @@
 #!/bin/bash
 
 # A script to monitor a tmux window for a specific prompt and interact with it.
+#
+# Native YOLO (auto-approve) modes:
+# - Gemini CLI: Run with `gemini --yolo` or press `Ctrl+Y` or set `"autoAccept": true` in settings.json.
+# - Claude Code: Run with `claude --dangerously-skip-permissions`.
+#
+# Use this script if you want to time-box "yolo" behavior (e.g. for 2 hours) instead of running indefinitely.
 
 if [ "$#" -ne 3 ]; then
     echo "Usage: $0 <window_target> <interval_seconds> <loops>"
